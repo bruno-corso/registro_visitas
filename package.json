@@ -4,11 +4,7 @@
   "type": "module",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "build": "npx tsc",
-    "start": "node dist/app.js",
-    "dev": "nodemon src/app.js"
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
