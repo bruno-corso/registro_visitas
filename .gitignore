@@ -1,0 +1,34 @@
+# Dependências do Node.js
+node_modules/
+
+# Arquivos de log
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Diretórios de build
+dist/
+build/
+
+# Arquivos de configuração do ambiente
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Configurações do sistema operacional
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# Arquivos de teste
+coverage/
+
+# Dependências do IDE/Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Arquivos de backup
+*~
