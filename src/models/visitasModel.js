@@ -51,6 +51,6 @@ const visitasSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model("Visitas", visitasSchema);
+const Visita = mongoose.model("Visitas", visitasSchema);
 
-export default User;
+export default Visita;

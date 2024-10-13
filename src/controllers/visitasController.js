@@ -44,7 +44,11 @@ export const criarVisita = async (req, res) => {
       visit_phone,
       visit_car_model,
       visit_car_id,
-      user_register: req.user.name
+      user_register: req.user.name,
     });
-  } catch (error) {}
+
+    await novaVisita.save();
+  } catch (error) {
+    res.status(500).json({ message: "erro no servidor", error });
+  }
 };
