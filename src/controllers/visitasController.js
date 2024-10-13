@@ -19,16 +19,16 @@ export const criarVisita = async (req, res) => {
     } = req.body;
 
     if (
-      visitor_name ||
-      visitor_photoUrl ||
-      visit_reason ||
-      visit_email ||
-      visit_phone ||
-      visit_car_model ||
-      visit_car_id ||
-      checkInTime ||
-      host_name ||
-      host_department
+      !visitor_name ||
+      !visitor_photoUrl ||
+      !visit_reason ||
+      !visit_email ||
+      !visit_phone ||
+      !visit_car_model ||
+      !visit_car_id ||
+      !checkInTime ||
+      !host_name ||
+      !host_department
     )
       return res
         .status(400)
