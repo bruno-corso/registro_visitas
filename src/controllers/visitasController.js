@@ -2,6 +2,8 @@ import visitasModel from "../models/visitasModel.js";
 
 export const criarVisita = async (req, res) => {
   try {
+    console.log(req.body);
+    
     const {
       visitor_name,
       visitor_photoUrl,
@@ -31,6 +33,7 @@ export const criarVisita = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Não foi preenchido todos os campos" });
+        
 
     const novaVisita = new visitasModel({
       visitor_name,
