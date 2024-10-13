@@ -2,8 +2,7 @@ import visitasModel from "../models/visitasModel.js";
 
 export const criarVisita = async (req, res) => {
   try {
-    console.log(req.body);
-    
+    console.log(req.user);
     const {
       visitor_name,
       visitor_photoUrl,
@@ -33,7 +32,6 @@ export const criarVisita = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Não foi preenchido todos os campos" });
-        
 
     const novaVisita = new visitasModel({
       visitor_name,
@@ -47,10 +45,11 @@ export const criarVisita = async (req, res) => {
       visit_phone,
       visit_car_model,
       visit_car_id,
-      user_register: req.user.name,
+      user_register: req.user.email,
     });
 
     await novaVisita.save();
+    res.status(201).json({ message: "Visita adicionada com sucesso!" });
   } catch (error) {
     res.status(500).json({ message: "erro no servidor", error });
   }
