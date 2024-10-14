@@ -54,3 +54,19 @@ export const criarVisita = async (req, res) => {
     res.status(500).json({ message: "erro no servidor", error });
   }
 };
+
+export const verVisitas = async (req, res) => {
+  try {
+    const query = await visitasModel.find();
+
+    if (!query) {
+      return res.status(400).json({
+        message: "Não foi possível buscar visitas",
+      });
+    }
+
+    res.status(200).json(query);
+  } catch (error) {
+    res.status(500).json({ message: "erro no servidor", error });
+  }
+};
