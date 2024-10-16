@@ -1,8 +1,9 @@
+import { query } from "express";
 import visitasModel from "../models/visitasModel.js";
 
 export const criarVisita = async (req, res) => {
   try {
-    console.log(req.user);
+    // console.log(req.user);
     const {
       visitor_name,
       visitor_photoUrl,
@@ -45,7 +46,7 @@ export const criarVisita = async (req, res) => {
       visit_phone,
       visit_car_model,
       visit_car_id,
-      user_register: req.user.email,
+      user_register: req.user.name,
     });
 
     await novaVisita.save();
@@ -57,7 +58,8 @@ export const criarVisita = async (req, res) => {
 
 export const verVisitas = async (req, res) => {
   try {
-    const query = await visitasModel.find();
+    const query = await visitasModel.find(req.query);
+    console.log(req);
 
     if (!query) {
       return res.status(400).json({
@@ -66,6 +68,47 @@ export const verVisitas = async (req, res) => {
     }
 
     res.status(200).json(query);
+  } catch (error) {
+    res.status(500).json({ message: "erro no servidor", error });
+  }
+};
+
+export const atualizaVisitas = async (req, res) => {
+  try {
+    const id = req.query.id;
+    const query = await visitasModel.findOneAndUpdate(id, req.query);
+
+    if (!query) {
+      return res.status(400).json({
+        message: "Não foi possível atualizar visitas",
+      });
+    }
+
+    res.status(202).json(res.body);
+  } catch (error) {
+    res.status(500).json({ message: "erro no servidor", error });
+  }
+};
+
+export const deletaVisitas = async (req, res) => {
+  const a = Object.keys(req.query).length;
+  // console.log(req.query);
+
+  try {
+    if (a === 0) {
+      return res.status(400).json({
+        message: "Envie parâmetros para deletar itens",
+      });
+    } else {
+      // console.log("banana");
+
+      const q = await visitasModel.deleteMany(req.query);
+      if (q.deletedCount > 0) {
+        res.status(202).json("Nº de itens deletados: " + q.deletedCount);
+      } else {
+        res.status(202).json("Nº de itens deletados: " +0);
+      }
+    }
   } catch (error) {
     res.status(500).json({ message: "erro no servidor", error });
   }

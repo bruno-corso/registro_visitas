@@ -52,3 +52,20 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: "erro no servidor", err });
   }
 };
+
+export const verUsers = async (req, res) => {
+  console.log(req);
+
+  try {
+    const query = await User.find();
+    if (!query) {
+      return res.status(400).json({
+        message: "Não foi possível buscar usuários",
+      });
+    }
+
+    res.status(200).json(query);
+  } catch (error) {
+    res.status(500).json({ message: "erro no servidor", error });
+  }
+};

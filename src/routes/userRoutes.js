@@ -1,5 +1,9 @@
 import express from "express";
-import { registerUser, loginUser } from "../controllers/userController.js";
+import {
+  registerUser,
+  loginUser,
+  verUsers,
+} from "../controllers/userController.js";
 
 const router = express.Router();
 
@@ -10,9 +14,6 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // GET teste
-router.get("/", (req, res) => {
-  console.log("funcionando o GET");
-  res.json({ message: "funcionando" });
-});
+router.get("/", verUsers);
 
 export default router;
