@@ -58,18 +58,34 @@ export const criarVisita = async (req, res) => {
 
 export const verVisitas = async (req, res) => {
   try {
-    const query = await visitasModel.find(req.query);
-    console.log(req);
+    // Cria o filtro a partir dos parâmetros de consulta (query params)
+    const filter = [];
 
-    if (!query) {
-      return res.status(400).json({
-        message: "Não foi possível buscar visitas",
+    // Itera sobre as chaves de req.query e adiciona ao filtro
+    Object.keys(req.query).forEach((key) => {
+      // Adiciona cada chave com uma busca case-insensitive usando $regex
+      filter.push({ [key]: { $regex: req.query[key], $options: "i" } });
+    });
+
+    console.log(filter);
+    const query = filter.length > 0 ? { $or: filter } : {};
+
+    // Faz a busca no banco de dados usando o filtro
+    const visitas = await visitasModel.find(query);
+
+    // Se nenhuma visita for encontrada
+    if (!visitas || visitas.length === 0) {
+      return res.status(404).json({
+        message: "Nenhuma visita encontrada",
       });
     }
 
-    res.status(200).json(query);
+    // Retorna as visitas encontradas
+    res.status(200).json(visitas);
   } catch (error) {
-    res.status(500).json({ message: "erro no servidor", error });
+    // Tratamento de erros com log detalhado
+    console.error("Erro ao buscar visitas:", error.message);
+    res.status(500).json({ message: "Erro no servidor", error: error.message });
   }
 };
 
@@ -106,7 +122,7 @@ export const deletaVisitas = async (req, res) => {
       if (q.deletedCount > 0) {
         res.status(202).json("Nº de itens deletados: " + q.deletedCount);
       } else {
-        res.status(202).json("Nº de itens deletados: " +0);
+        res.status(202).json("Nº de itens deletados: " + 0);
       }
     }
   } catch (error) {
